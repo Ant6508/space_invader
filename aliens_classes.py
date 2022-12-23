@@ -26,7 +26,6 @@ class sbire(alien.alien):
         self.score = 10
 
     def spawn(self):
-        print("master : ",self.master,"canvas : ",self.canvas,"fenetre : ",self.fenetre)
         self.item = self.canvas.create_image(self.position[0],self.position[1],image=self.image)
         self.collision_missile()
 
@@ -38,6 +37,7 @@ class shooter(alien.alien):
         self.vitesse = 5
         self.temps_recharge = 1
         self.missiles = []
+        self.score = 20
 
     def spawn(self):
         self.item = self.canvas.create_image(self.position[0],self.position[1],image=self.image)

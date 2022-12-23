@@ -31,13 +31,15 @@ class Application :
         self.fenetre.config(bg='grey')
         self.fenetre.protocol("WM_DELETE_WINDOW", self.quitter)
 
+
+        self.score = tk.IntVar() #variable du score
+        self.score.set(0)
+
+        self.aliens = []
+        
         self.init_canvas()
         self.init_buttons()
         self.init_score()
-
-        self.score = 0
-
-        self.aliens = []
 
 
     #Création du canvas
@@ -54,6 +56,8 @@ class Application :
     def init_score(self):
         self.score_label = tk.Label(self.fenetre, text="Score : ")
         self.score_label.place(x=200, y=0)
+        self.score_points = tk.Label(self.fenetre, textvariable=self.score)
+        self.score_points.place(x=250, y=0)
 
     def nouvelle_partie(self):
         self.canvas.delete("all")
@@ -74,7 +78,7 @@ class Application :
     def tuer_alien(self,alien): #fonction qui tue un alien
         self.aliens.remove(alien)
         self.canvas.delete(alien.item)
-        alien.etat == "mort"
+        alien.etat = "mort"
   
     
     def collision_vaisseau(self):
@@ -88,26 +92,25 @@ class Application :
                 for bullet in alien.missiles: #on vérifie si le vaisseau est en collision avec un missile
                     (x3,y3,x4,y4) = bullet.get_bbox()
                     if funaux.rectangle_chevauche((x1,y1,x2,y2),(x3,y3,x4,y4)):
-                        print("collision bullet")
+
                         if not self.vaisseau.state == "invincible":
                             self.vaisseau.vie -= 1
                             self.vaisseau.invincible(2)   
-                        self.canvas.delete(bullet.item)
-                        alien.missiles.remove(bullet)
-                        bullet.etat = "mort"
+                        bullet.supprimer()
                         print("vie du vaisseau : ",self.vaisseau.vie)
                         break
 
             (x3,y3,x4,y4) = alien.get_bbox()  
             if funaux.rectangle_chevauche((x1,y1,x2,y2),(x3,y3,x4,y4)):
-                print("collision")
                 
                 if self.vaisseau.state == "invincible":
-                    print("alien mort")
+
                     self.tuer_alien(alien)
+                    self.score.set(self.score.get()+1)
+
                 else:
                     self.tuer_alien(alien)
-                    if self.vaisseau.vie == 0:
+                    if self.vaisseau.vie <= 0:
                         print("Perdu")
                         
                     self.vaisseau.invincible(2)

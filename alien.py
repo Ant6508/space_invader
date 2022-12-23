@@ -32,13 +32,16 @@ class alien:
             return
 
         for missile in self.master.vaisseau.bullets:
-            if missile == None:
+            if missile.etat == "mort":
                 continue
             if missile.collision(self):
                 self.pv -= 1
-                self.canvas.delete(missile.item)                
-                self.master.vaisseau.bullets.remove(missile)
-                print("touché")
+                missile.supprimer()
+                print("touché missile")
+
+                score = self.master.score.get()
+                self.master.score.set(score+self.score)
+
                 if self.pv <= 0:
                     self.canvas.delete(self.item)
                     self.master.aliens.remove(self)

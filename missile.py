@@ -37,7 +37,7 @@ class missile:
 
     def collision(self,objet):
         #fonction qui renvoie True si le missile touche l'objet
-        if self.etat == "mort":
+        if self.etat == "mort" or objet.etat == "mort":
             return False
         (x1,y1,x2,y2) = self.canvas.bbox(objet.item)
         (x3,y3,x4,y4) = self.canvas.bbox(self.item)
@@ -58,3 +58,9 @@ class missile:
         self.canvas.delete(self.r)
         self.r = self.canvas.create_rectangle(self.canvas.bbox(self.item),outline="red")
         self.fenetre.after(100,self.display_bbox)
+
+    def supprimer(self):
+        self.etat = "mort"
+        self.canvas.delete(self.item)
+        self.canvas.delete(self.r)
+        self.master.vaisseau.bullets.remove(self)
