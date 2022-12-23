@@ -7,7 +7,7 @@ Codé par : RONGERE Julien et Rodde Théophile
     """
 
 from pygame import mixer
-
+import time
 class niveau:
 
     def __init__(self,master,canvas,fenetre,score_multiplieur,musique) -> None:
@@ -22,11 +22,22 @@ class niveau:
         mixer.music.load(self.musique) # on charge la musique
         #self.fenetre.after(0,mixer.music.play) #on la joue
 
-    def spawn_aliens(self): # fonction qui fait spawn les aliens
+    def spawn_aliens(self,wave=0): # fonction qui fait spawn les aliens
         
-        for wave in self.aliens_waves:
-            for i in range(len(wave)):
-                fonction_deplacement = getattr(self,"deplacement_"+wave[i].__class__.__name__.lower()) # on récupère la fonction de déplacement de l'alien
-                self.fenetre.after(1000*i,wave[i].spawn) # on fait spawn les aliens avec un délai de 1 seconde entre chaque alien
-                self.fenetre.after(1000*i,fonction_deplacement,wave[i]) # on fait déplacer les aliens avec un délai de 1 seconde entre chaque alien
-                self.fenetre.after(1000*i,self.master.aliens.append,wave[i]) # on ajoute les aliens à la liste des aliens du master avec un délai de 1 seconde entre chaque alien
+        for i in range(len(self.aliens_waves[wave])):
+            
+            type_alien = self.aliens_waves[wave][i].__class__.__name__
+            fonction_deplacement = eval("self.deplacement_"+type_alien.lower())
+            self.fenetre.after(0,self.aliens_waves[wave][i].spawn)
+            self.fenetre.after(0,fonction_deplacement,self.aliens_waves[wave][i])
+
+            if self.prochaine_vague() and wave < len(self.aliens_waves)-1:
+                print("prochaine vague dans 5 secondes")
+                self.fenetre.after(5,self.spawn_aliens,wave+1)
+    
+    def prochaine_vague(self,vague_courante=0):
+        if not all([alien.etat == "mort" for alien in self.aliens_waves[vague_courante]]):
+            return self.fenetre.after(1000,self.prochaine_vague)
+        
+        else:
+            return True

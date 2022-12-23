@@ -97,11 +97,11 @@ class Application :
                             self.vaisseau.vie -= 1
                             self.vaisseau.invincible(2)   
                         bullet.supprimer(alien)
-                        print("vie du vaisseau : ",self.vaisseau.vie)
+                        
                         break
 
             (x3,y3,x4,y4) = alien.get_bbox()  
-            if funaux.rectangle_chevauche((x1,y1,x2,y2),(x3,y3,x4,y4)):
+            if funaux.rectangle_chevauche((x1,y1,x2,y2),(x3,y3,x4,y4)): #on vérifie si le vaisseau est en collision avec un alien
                 
                 if self.vaisseau.state == "invincible":
 
@@ -110,10 +110,13 @@ class Application :
 
                 else:
                     self.tuer_alien(alien)
+                    self.score.set(self.score.get()+alien.score)
+                    self.vaisseau.vie -= 1
                     if self.vaisseau.vie <= 0:
                         print("Perdu")
                         
                     self.vaisseau.invincible(2)
+            print("vie du vaisseau : ",self.vaisseau.vie)
 
         self.fenetre.after(50,self.collision_vaisseau)
 

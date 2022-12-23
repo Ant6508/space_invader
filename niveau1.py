@@ -12,8 +12,10 @@ class niveau1(niveau.niveau):
         sbire, shooter = aliens_classes.sbire, aliens_classes.shooter
         position_initiale = (self.centre_canvas[0],self.centre_canvas[1]-100)
         self.aliens_waves = [ [sbire(master,canvas,fenetre,1,10,position_initiale,1,"vivant") for i in range(5)] + \
+                            [shooter(master,canvas,fenetre,1,10,(100*(i+1),70),1,"vivant") for i in range(3)],
+                            [sbire(master,canvas,fenetre,1,10,position_initiale,1,"vivant") for i in range(5)] + \
                             [shooter(master,canvas,fenetre,1,10,(100*(i+1),70),1,"vivant") for i in range(3)] ]
-        self.spawn_aliens()
+        self.fenetre.after(0,self.spawn_aliens)
 
 
 
