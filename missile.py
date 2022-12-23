@@ -59,8 +59,8 @@ class missile:
         self.r = self.canvas.create_rectangle(self.canvas.bbox(self.item),outline="red")
         self.fenetre.after(100,self.display_bbox)
 
-    def supprimer(self):
+    def supprimer(self,proprietaire):
         self.etat = "mort"
         self.canvas.delete(self.item)
         self.canvas.delete(self.r)
-        self.master.vaisseau.bullets.remove(self)
+        proprietaire.missiles.remove(self)

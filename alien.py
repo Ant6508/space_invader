@@ -31,12 +31,12 @@ class alien:
         if self.etat == "mort":
             return
 
-        for missile in self.master.vaisseau.bullets:
+        for missile in self.master.vaisseau.missiles:
             if missile.etat == "mort":
                 continue
             if missile.collision(self):
                 self.pv -= 1
-                missile.supprimer()
+                missile.supprimer(self.master.vaisseau)
                 print("touché missile")
 
                 score = self.master.score.get()

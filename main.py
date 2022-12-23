@@ -63,7 +63,7 @@ class Application :
         self.canvas.delete("all")
         self.canvas.create_image(0,0,anchor="nw",image=self.fond_canvas)
         self.vaisseau = vaisseau.vaisseau(self,self.canvas,self.fenetre)
-        self.niveau1 = niveau1.niveau1(self,self.canvas,self.fenetre,1,"/musiques/niveau1.mp3")
+        self.niveau1 = niveau1.niveau1(self,self.canvas,self.fenetre,1,"musiques/niveau1.mp3")
 
         self.collision_vaisseau()
 
@@ -96,7 +96,7 @@ class Application :
                         if not self.vaisseau.state == "invincible":
                             self.vaisseau.vie -= 1
                             self.vaisseau.invincible(2)   
-                        bullet.supprimer()
+                        bullet.supprimer(alien)
                         print("vie du vaisseau : ",self.vaisseau.vie)
                         break
 

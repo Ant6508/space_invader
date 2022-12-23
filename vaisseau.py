@@ -22,7 +22,7 @@ class vaisseau:
 
         self.vie = 2
         self.state = "normal" #normal, invincible, dead
-        self.vitesse = 20
+        self.vitesse = 25
         self.position = (150,400)
 
         self.image = tk.PhotoImage(file="images/vaisseau.png")
@@ -34,7 +34,7 @@ class vaisseau:
         self.fenetre.bind("<Down>",lambda event: self.deplacement(event,1))
 
         self.fenetre.bind("<space>",lambda event: self.tir())
-        self.bullets = []
+        self.missiles = []
         
         self.r = self.canvas.create_rectangle(self.get_bbox(),outline="red")
         self.display_bbox()
@@ -63,7 +63,7 @@ class vaisseau:
     def invincible(self,time,sens=-1):
         #cree un cercle rouge autour du vaisseau qui le rend invincible pendant un certain temps
 
-        self.inv_circle = funaux.create_circle(self.position[0],self.position[1],50,self.canvas,outline="red",width=2)
+        self.inv_circle = funaux.create_circle(self.position[0],self.position[1],max(self.get_bbox()),self.canvas,outline="red",width=2)
         self.state = "invincible"
         self.fenetre.after(time*1000,self.invincible_end)
 
@@ -87,7 +87,7 @@ class vaisseau:
 
     def tir(self):
         #fait tirer un missile
-        self.bullets.append(missile.missile(self.master,self.canvas,self.fenetre,self.position,-20))
+        self.missiles.append(missile.missile(self.master,self.canvas,self.fenetre,self.position,-20))
 
     
 

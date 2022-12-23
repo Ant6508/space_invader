@@ -30,8 +30,8 @@ class sbire(alien.alien):
         self.collision_missile()
 
 class shooter(alien.alien):
-    def __init__(self,master,canvas,fenetre,pv,vitesse,position,temps_recharge,image,etat) -> None:
-        super().__init__(master,canvas,fenetre,pv,vitesse,position,temps_recharge,image,etat)
+    def __init__(self,master,canvas,fenetre,pv,vitesse,position,temps_recharge,etat) -> None:
+        super().__init__(master,canvas,fenetre,pv,vitesse,position,temps_recharge,etat)
 
         self.pv = 1
         self.vitesse = 5
@@ -39,10 +39,11 @@ class shooter(alien.alien):
         self.missiles = []
         self.score = 20
 
+        self.image = tk.PhotoImage(file="images/aliens/shooter.png")
+
     def spawn(self):
         self.item = self.canvas.create_image(self.position[0],self.position[1],image=self.image)
         self.collision_missile()
-        self.deplacement()
         self.tir()
 
     def deplacement(self,sens=1):
