@@ -60,10 +60,11 @@ class vaisseau:
          
     
 
-    def invincible(self,time,sens=-1):
+    def invincible(self,time):
         #cree un cercle rouge autour du vaisseau qui le rend invincible pendant un certain temps
-
-        self.inv_circle = funaux.create_circle(self.position[0],self.position[1],max(self.get_bbox()),self.canvas,outline="red",width=2)
+        (x1,y1,x2,y2) = self.get_bbox()
+        rayon = max(x2-x1,y2-y1)
+        self.inv_circle = funaux.create_circle(self.position[0],self.position[1],rayon,self.canvas,outline="red",width=2)
         self.state = "invincible"
         self.fenetre.after(time*1000,self.invincible_end)
 

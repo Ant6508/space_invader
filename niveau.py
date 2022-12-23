@@ -25,19 +25,22 @@ class niveau:
     def spawn_aliens(self,wave=0): # fonction qui fait spawn les aliens
         
         for i in range(len(self.aliens_waves[wave])):
-            
+            self.fenetre.after(500*i,self.master.aliens.append,self.aliens_waves[wave][i])   # on ajoute l'alien à la liste des aliens du master
             type_alien = self.aliens_waves[wave][i].__class__.__name__
-            fonction_deplacement = eval("self.deplacement_"+type_alien.lower())
-            self.fenetre.after(0,self.aliens_waves[wave][i].spawn)
-            self.fenetre.after(0,fonction_deplacement,self.aliens_waves[wave][i])
+            fonction_deplacement = eval("self.deplacement_"+type_alien.lower()) # on récupère la fonction de déplacement de l'alien en fonction de son type
 
-            if self.prochaine_vague() and wave < len(self.aliens_waves)-1:
-                print("prochaine vague dans 5 secondes")
-                self.fenetre.after(5,self.spawn_aliens,wave+1)
-    
+            self.fenetre.after(500*i,self.aliens_waves[wave][i].spawn)
+            self.fenetre.after(500*i,fonction_deplacement,self.aliens_waves[wave][i])
+
+        print([alien.etat for alien in self.aliens_waves[wave]])
+
+        if wave < len(self.aliens_waves)-1: # si ce n'est pas la dernière vague
+            self.fenetre.after(0,self.prochaine_vague,wave)
+
     def prochaine_vague(self,vague_courante=0):
-        if not all([alien.etat == "mort" for alien in self.aliens_waves[vague_courante]]):
-            return self.fenetre.after(1000,self.prochaine_vague)
-        
+
+        if not all([alien.etat == "mort" for alien in self.aliens_waves[vague_courante]]): # si tous les aliens de la vague courante ne sont pas morts
+            self.fenetre.after(1000,self.prochaine_vague,vague_courante) # on attend 1 seconde et on relance la fonction
         else:
-            return True
+            print("vague suivante dans 5 secondes")
+            self.fenetre.after(5000,self.spawn_aliens,vague_courante+1) # sinon on fait spawn la vague suivante

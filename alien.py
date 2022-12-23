@@ -37,19 +37,22 @@ class alien:
             if missile.collision(self):
                 self.pv -= 1
                 missile.supprimer(self.master.vaisseau)
-                print("touché missile")
+                print("alien touché par missile")
 
                 score = self.master.score.get()
                 self.master.score.set(score+self.score)
 
-                if self.pv <= 0:
-                    self.canvas.delete(self.item)
-                    self.master.aliens.remove(self)
-                    self.etat = "mort"
+                if self.pv == 0:
+                    self.supprimer()
+                    print("alien mort")
+                    break
                     
-            else:
-                pass
         self.fenetre.after(50,self.collision_missile)
 
     def get_bbox(self):
         return self.canvas.bbox(self.item)
+
+    def supprimer(self):
+        self.canvas.delete(self.item)
+        self.etat = "mort" 
+        self.master.aliens.remove(self)

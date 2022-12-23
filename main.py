@@ -116,7 +116,6 @@ class Application :
                         print("Perdu")
                         
                     self.vaisseau.invincible(2)
-            print("vie du vaisseau : ",self.vaisseau.vie)
 
         self.fenetre.after(50,self.collision_vaisseau)
 
