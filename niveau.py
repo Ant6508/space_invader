@@ -20,13 +20,13 @@ class niveau:
 
         mixer.init() # on initialise le mixer de pygame
         mixer.music.load(self.musique) # on charge la musique
-        #self.fenetre.after(0,mixer.music.play) #on la joue
+        self.fenetre.after(0,mixer.music.play) #on la joue
 
     def spawn_aliens(self,wave=0): # fonction qui fait spawn les aliens
         
         for i in range(len(self.aliens_waves[wave])):
             self.fenetre.after(500*i,self.master.aliens.append,self.aliens_waves[wave][i])   # on ajoute l'alien à la liste des aliens du master
-            type_alien = self.aliens_waves[wave][i].__class__.__name__
+            type_alien = self.aliens_waves[wave][i].__class__.__name__ # on récupère le type de l'alien en regardant le nom de sa classe
             fonction_deplacement = eval("self.deplacement_"+type_alien.lower()) # on récupère la fonction de déplacement de l'alien en fonction de son type
 
             self.fenetre.after(500*i,self.aliens_waves[wave][i].spawn)

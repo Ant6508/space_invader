@@ -5,7 +5,7 @@ Version : 1.0
 Description : fonctions auxiliaires
 '''
 import time
-
+from math import cos,sin
 
 def exec_fonction_temps(fonction,duree,delai=100):
     '''
@@ -34,3 +34,31 @@ def ajoute_aliens(master,aliens_waves):
     for wave in aliens_waves:
         for alien in wave:
             master.aliens.append(alien)
+
+#fonctions pour déplacer les aliens
+
+def deplacement_circulaire(canvas,fenetre,alien,rayon,centre,teta_0,delta_teta): #déplacement circulaire 
+
+    if alien.etat == "mort": #si l'alien est mort, on ne fait rien
+        return
+
+    pas_x = -alien.position[0]+rayon*cos(teta_0+delta_teta) + centre[0] #on calcule le déplacement à effectuer
+    pas_y = -alien.position[1]+rayon*sin(teta_0+delta_teta) + centre[1]
+
+    teta_0 += delta_teta #on incrémente l'angle
+    canvas.move(alien.item,pas_x,pas_y) #on déplace l'alien
+    alien.position = (alien.position[0]+pas_x,alien.position[1]+pas_y)  #on met à jour la position de l'alien
+
+    fenetre.after(50,deplacement_circulaire,canvas,fenetre,alien,rayon,centre,teta_0,delta_teta) #on rappelle la fonction après 50ms
+
+def deplacement_AR(canvas,fenetre,alien,sens): #déplacement aller-retour
+
+    if alien.etat == "mort": #si l'alien est mort, on ne fait rien
+        return
+
+    canvas.move(alien.item,alien.vitesse*sens,0) #on déplace l'alien
+    alien.position = (alien.position[0]+alien.vitesse*sens,alien.position[1]) #on met à jour la position de l'alien
+
+    if alien.position[0] + alien.vitesse >= canvas.winfo_width() or alien.position[0] + alien.vitesse <= 0: #si l'alien touche un bord, on change de sens
+        sens *= -1
+    fenetre.after(50,deplacement_AR,canvas,fenetre,alien,sens) #on rappelle la fonction après 50ms
