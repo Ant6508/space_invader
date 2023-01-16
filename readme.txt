@@ -22,11 +22,10 @@ Le joueur peut en jeu ramasser différents bonus qui l'aideront à vaincre les a
 De plus, lorsque le joueur perd une vie, il devient de même invincible pendant 2 secondes
 
 
-
 Je n'ai pas eu le temps de créer tous les niveaux que je voulais à cause du code qui devenait difficile à débugger ( par exemple le boss qui devient invisible n'est pas concerné par les collisions )
 Cependant, comme toutes les classes sont crées, il suffit de se rendre dans le module niveau_classes et ajouter les aliens dans la liste aliens_waves
 
-Cette liste est surement la plus importante du code : elle indique au jeu les aliens qui doivent spawn sous forme de différentes vagues.
+Cette liste est surement la plus importante du code ( même si c'est loin d'être la seule ) : elle indique au jeu les aliens qui doivent spawn sous forme de différentes vagues.
 Les aliens sont ainsi totalement modifiables au niveau de leur stats mais aussi au niveau de leur fonction de déplacement.
 
 Juste avant qu'un alien spawn, python va regarder dans le ficher aliens_classes si une ou plusieurs fonctions de deplacement ont été créees
