@@ -36,3 +36,5 @@ Pygame n'est utilisée que pour la musique
 
 Enfin, il est possible de faire apparaître la hitbox des différents éléments du canvas (aliens,missiles,vaisseau) en appelant la fonction display_bbox à l'initilisation de la classe
 correspondante ) ainsi que le nombre d'entités présentes sur le canvas en appuyant sur la touche "d".
+
+Lien vers le repo git : https://github.com/Ant6508/space_invader
